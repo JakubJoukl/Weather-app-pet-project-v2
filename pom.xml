@@ -136,7 +136,7 @@
                 <configuration>
                     <!-- reference DB = Hibernate -->
                     <referenceUrl>
-                        hibernate:spring:com.example.weatherapppetprojectv2.entity?dialect=org.hibernate.dialect.MySQLDialect
+                        hibernate:spring:com.example.weatherapppetprojectv2.entity?dialect=org.hibernate.dialect.MySQLDialect&amp;hibernate.physical_naming_strategy=com.example.weatherapppetprojectv2.config.UpperCaseSnakeNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.hibernate.SpringImplicitNamingStrategy
                     </referenceUrl>
                     <referenceDriver>liquibase.ext.hibernate.database.connection.HibernateDriver</referenceDriver>
 
