@@ -2,13 +2,13 @@ services:
   mysql:
     image: 'mysql:latest'
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - 'MYSQL_DATABASE=weatherApp'
+      - 'MYSQL_PASSWORD=password'
+      - 'MYSQL_ROOT_PASSWORD=secretPassword'
+      - 'MYSQL_USER=reporter'
     ports:
-      - '3306'
+      - '3306:3306'
   redis:
     image: 'redis:latest'
     ports:
-      - '6379'
+      - '6379:6379'
