@@ -1,11 +1,10 @@
 package com.example.weatherapppetprojectv2.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -13,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String username;
@@ -26,4 +26,11 @@ public class User {
     private String middleName;
     @Column
     private String surname;
+    @ManyToMany
+    @JoinTable(
+        name = "USER_LOCATION",
+        joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_id_key")),
+        inverseJoinColumns = @JoinColumn(name = "location_id", foreignKey = @ForeignKey(name = "location_id_key"))
+    )
+    private List<Location> locations;
 }
