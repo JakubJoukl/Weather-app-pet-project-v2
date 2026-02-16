@@ -24,4 +24,6 @@ public class Location {
     private Double longitude;
     @ManyToMany(mappedBy = "locations")
     private List<User> users;
+    @OneToMany(mappedBy = "location")
+    private List<WeatherObservation> weatherObservations;
 }

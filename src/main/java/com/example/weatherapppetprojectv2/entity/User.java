@@ -26,6 +26,7 @@ public class User {
     private String middleName;
     @Column
     private String surname;
+    //TODO rename keys
     @ManyToMany
     @JoinTable(
         name = "USER_LOCATION",

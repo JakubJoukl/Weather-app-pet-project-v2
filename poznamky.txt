@@ -1,0 +1,2 @@
+Uzivatel si muze zvolit lokace, u kterych bude sledovat vyvoj dat
+Lokace tedy patri k entite uzivatele, pozorovani ne
