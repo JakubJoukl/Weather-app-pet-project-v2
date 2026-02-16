@@ -23,7 +23,7 @@ public class WeatherObservation {
     private String windDirection;
     @Column
     private Double humidity;
-    //TODO also rename
+    //TODO rename constraint
     @ManyToOne
     @JoinColumn(name = "location_id", foreignKey = @ForeignKey(name = "location_id_key_weather_observation"))
     private Location location;
