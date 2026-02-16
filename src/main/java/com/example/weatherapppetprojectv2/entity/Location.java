@@ -1,13 +1,16 @@
 package com.example.weatherapppetprojectv2.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+//TODO omezit sloupce pomoci constraint
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "LOCATION")
 public class Location {

@@ -1,14 +1,21 @@
 package com.example.weatherapppetprojectv2.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+//TODO omezit sloupce pomoci constraint
 @Data
 @NoArgsConstructor
-@Table(name = "USER")
+@AllArgsConstructor
+@Table(name = "USER", indexes = {
+        @Index(name = "username_index", columnList = "username"),
+        @Index(name = "email_index", columnList = "email")
+})
 @Entity
 public class User {
     @Id
