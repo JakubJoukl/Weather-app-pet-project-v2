@@ -1,10 +1,13 @@
 package com.example.weatherapppetprojectv2.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
@@ -22,15 +25,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
+    @NotNull
+    @Length(min = 4, max = 255)
     private String username;
+    @NotNull
     @Column
     private String password;
+    @NotNull
+    @Email
     @Column
     private String email;
     @Column
+    @NotBlank
     private String firstName;
     @Column
     private String middleName;
+    @NotBlank
     @Column
     private String surname;
     //TODO rename keys

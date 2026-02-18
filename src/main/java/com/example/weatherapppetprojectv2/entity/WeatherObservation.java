@@ -1,6 +1,7 @@
 package com.example.weatherapppetprojectv2.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class WeatherObservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
+    @NotNull
     private Instant measuredAt;
     @Column
     private Double temperature;
@@ -27,8 +29,7 @@ public class WeatherObservation {
     private String windDirection;
     @Column
     private Double humidity;
-    //TODO rename constraint
     @ManyToOne
-    @JoinColumn(name = "location_id", foreignKey = @ForeignKey(name = "location_id_key_weather_observation"))
+    @JoinColumn(name = "location_id", foreignKey = @ForeignKey(name = "location_id_key_weather_observation"), nullable = false)
     private Location location;
 }
