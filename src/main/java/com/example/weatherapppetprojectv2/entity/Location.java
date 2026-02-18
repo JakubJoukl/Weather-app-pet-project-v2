@@ -1,6 +1,7 @@
 package com.example.weatherapppetprojectv2.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Constraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "LOCATION")
+@Table(name = "LOCATION",
+        uniqueConstraints = {@UniqueConstraint(name = "UC_LOCATION_NAME_LATITUDE_LONGITUDE", columnNames = {"NAME", "LATITUDE", "LONGITUDE"})},
+        indexes = {
+            @Index(name = "IDX_NAME_LATITUDE_LONGITUDE", columnList = "name, latitude, longitude"),
+            @Index(name = "IDX_NAME", columnList = "name")
+        }) //unique = true radši do constraint než index
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
+    //@Column(unique = true) Může API vrátit stejná jména lokalit, ale jiné souřadnice?
     private String name;
     @Column
     private String region;

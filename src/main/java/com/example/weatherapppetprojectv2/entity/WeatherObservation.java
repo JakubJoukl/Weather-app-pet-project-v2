@@ -13,7 +13,8 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "WEATHER_OBSERVATION")
+@Table(name = "WEATHER_OBSERVATION",
+        uniqueConstraints = {@UniqueConstraint(name = "UC_WEATHER_OBSERVATION_MEASURED_AT_LOCATION", columnNames = {"MEASURED_AT", "LOCATION_ID"})})
 public class WeatherObservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
