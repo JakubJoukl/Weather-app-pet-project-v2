@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserLoginDtoResponse {
     private String username;
-    private String jwtToken; //TODO
+    private String jwtToken;
 }

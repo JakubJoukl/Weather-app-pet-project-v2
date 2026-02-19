@@ -8,8 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 //TODO omezit sloupce pomoci constraint
 @Data
@@ -20,7 +23,8 @@ import java.util.List;
         @Index(name = "email_index", columnList = "email")
 })
 @Entity
-public class User {
+//TODO přidat práva
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,9 +50,18 @@ public class User {
     //TODO rename keys
     @ManyToMany
     @JoinTable(
-        name = "USER_LOCATION",
-        joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_id_key")),
-        inverseJoinColumns = @JoinColumn(name = "location_id", foreignKey = @ForeignKey(name = "location_id_key"))
+            name = "USER_LOCATION",
+            joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_id_key")),
+            inverseJoinColumns = @JoinColumn(name = "location_id", foreignKey = @ForeignKey(name = "location_id_key"))
     )
-    private List<Location> locations;
+    private List<Location> locations = new ArrayList<>();
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "USER_AUTHORITY",
+            joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_authority_key")),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", foreignKey = @ForeignKey(name = "authority_user_key")),
+            uniqueConstraints = {@UniqueConstraint(name = "UC_USER_AUTHORITY", columnNames = {"user_id", "authority_id"})}
+    )
+    private List<Authority> authorities = new ArrayList<>();
 }

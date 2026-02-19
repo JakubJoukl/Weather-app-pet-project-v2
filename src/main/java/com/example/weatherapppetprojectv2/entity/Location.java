@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //TODO omezit sloupce pomoci constraint
@@ -33,7 +34,7 @@ public class Location {
     @Column
     private Double longitude;
     @ManyToMany(mappedBy = "locations")
-    private List<User> users;
-    @OneToMany(mappedBy = "location")
-    private List<WeatherObservation> weatherObservations;
+    private List<User> users = new ArrayList<>();
+    @OneToMany(mappedBy = "location", orphanRemoval = true)
+    private List<WeatherObservation> weatherObservations = new ArrayList<>();
 }

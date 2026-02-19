@@ -7,10 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserLoginResponseMapper {
-
-    //zbytecne
     @Mapping(source = "username", target = "username")
     UserLoginDtoResponse toDto(User user);
-
-    User toEntity(UserLoginDtoResponse dto);
 }
