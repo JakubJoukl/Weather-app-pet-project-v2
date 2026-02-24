@@ -12,14 +12,17 @@ import com.example.weatherapppetprojectv2.dto.UserLoginDtoResponse;
 import com.example.weatherapppetprojectv2.entity.User;
 import com.example.weatherapppetprojectv2.exception.UsernameNotFoundException;
 import com.example.weatherapppetprojectv2.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserLoginResponseMapper userLoginResponseMapper;
@@ -28,16 +31,7 @@ public class UserService implements UserDetailsService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final AuthorityService authorityService;
-
-    public UserService(UserRepository userRepository, UserLoginResponseMapper userLoginResponseMapper, AddUserResponseMapper addUserResponseMapper, AddUserDtoMapper addUserDtoMapper, JwtService jwtService, AuthenticationManager authenticationManager, AuthorityService authorityService) {
-        this.userRepository = userRepository;
-        this.userLoginResponseMapper = userLoginResponseMapper;
-        this.addUserResponseMapper = addUserResponseMapper;
-        this.addUserDtoMapper = addUserDtoMapper;
-        this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
-        this.authorityService = authorityService;
-    }
+    private final PasswordEncoder encoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -69,6 +63,7 @@ public class UserService implements UserDetailsService {
             throw new SameUsernameOrEmailUserExistsException(addUserDto.getUsername(), addUserDto.getEmail());
         }
         User user = addUserDtoMapper.toEntity(addUserDto);
+        user.setPassword(encoder.encode(addUserDto.getPassword()));
         addAuthorityToUser(user, "USER");
         user = userRepository.save(user);
         return addUserResponseMapper.toDto(user);

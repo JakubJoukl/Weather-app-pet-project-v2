@@ -1,7 +1,6 @@
 package com.example.weatherapppetprojectv2.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.Constraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

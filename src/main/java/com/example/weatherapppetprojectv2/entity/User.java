@@ -56,7 +56,7 @@ public class User implements UserDetails {
     )
     private List<Location> locations = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "USER_AUTHORITY",
             joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_authority_key")),
