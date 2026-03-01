@@ -16,23 +16,23 @@ import java.util.StringTokenizer;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    //TODO zvazit logovani aspektem
+    //TODO zvazit logovani aspektem - abych logoval i defaultni exception
     public static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<?> handleUserNotFound(UsernameNotFoundException ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponseDto> handleUserNotFound(UsernameNotFoundException ex, HttpServletRequest request) {
         log.debug("Requestor: {}, username: {}", getClientIpAddress(request), ex.getUsername());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ex.getMessage()));
     }
 
     @ExceptionHandler(SameUsernameOrEmailUserExistsException.class)
-    public ResponseEntity<?> handleUserNotFound(SameUsernameOrEmailUserExistsException ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponseDto> handleUserNotFound(SameUsernameOrEmailUserExistsException ex, HttpServletRequest request) {
         log.debug("Requestor: {}, username: {}, email: {}", getClientIpAddress(request), ex.getUsername(), ex.getEmail());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDto(ex.getMessage()));
     }
 
     @ExceptionHandler(AuthorityNotFoundException.class)
-    public ResponseEntity<?> handleAuthorityNotFound(AuthorityNotFoundException ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponseDto> handleAuthorityNotFound(AuthorityNotFoundException ex, HttpServletRequest request) {
         log.debug("Requestor: {}, authority: {}", getClientIpAddress(request), ex.getAuthority());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDto(ex.getMessage()));
     }
