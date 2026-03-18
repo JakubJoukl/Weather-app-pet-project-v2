@@ -35,8 +35,7 @@ public class LoggingAspect {
             throwing = "ex"
     )
     public void logExceptions(JoinPoint joinPoint, Throwable ex) {
-        //TODO něco lepšího než reflexe?
-        if(ex.getClass().getPackageName().equals("com.example.weatherapppetprojectv2.exception")) {
+        if(ex.getClass().isAnnotationPresent(DoNotLog.class)) {
             return;
         }
 
