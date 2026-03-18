@@ -29,6 +29,8 @@ public class Location {
     @Column
     private String region;
     @Column
+    private String country;
+    @Column
     private Double latitude;
     @Column
     private Double longitude;

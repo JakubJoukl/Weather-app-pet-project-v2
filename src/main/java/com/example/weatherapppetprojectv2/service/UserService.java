@@ -69,6 +69,10 @@ public class UserService implements UserDetailsService {
         return addUserResponseMapper.toDto(user);
     }
 
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
     private void addAuthorityToUser(User user, String authority) {
         Authority userAuthority = authorityService.getAuthorityByAuthority(authority); //TODO do enumu?
         user.getAuthorities().add(userAuthority);
