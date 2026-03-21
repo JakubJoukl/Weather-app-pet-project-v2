@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @Getter
 @DoNotLog
-public class UserAlreadyObservesLocation extends RuntimeException {
+public class UserAlreadyObservesLocationException extends RuntimeException {
     private String username;
     private String location;
 
-    public UserAlreadyObservesLocation(String username, String location) {
+    public UserAlreadyObservesLocationException(String username, String location) {
         super("User " + username + " already observes the location " + location);
         this.username = username;
         this.location = location;
