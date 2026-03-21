@@ -1,20 +1,17 @@
 package com.example.weatherapppetprojectv2.service;
 
 import com.example.weatherapppetprojectv2.dto.currentWeather.GetCurrentWeatherDtoResponse;
+import com.example.weatherapppetprojectv2.dto.currentWeather.LocationDto;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import java.util.List;
 
 @Service
 public class WeatherApiService {
@@ -69,5 +66,22 @@ public class WeatherApiService {
                 .encode(StandardCharsets.UTF_8)
                 .toUriString();
         return restTemplate.getForEntity(requestUrl, GetCurrentWeatherDtoResponse.class).getBody();
+    }
+
+    public List<LocationDto> getSearchApiDtoResponse(String locationName) {
+        String locationWeatherPath = "search.json";
+        String requestUrl = UriComponentsBuilder
+                .fromUri(URI.create(baseUrl + locationWeatherPath))
+                .queryParam(queryParamName, locationName)
+                .queryParam(keyParamName, apiKey)
+                .build()
+                .encode(StandardCharsets.UTF_8)
+                .toUriString();
+        return restTemplate.exchange(
+                requestUrl,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<LocationDto>>() {}
+        ).getBody();
     }
 }

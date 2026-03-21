@@ -23,7 +23,7 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(nullable = false)
     //@Column(unique = true) Může API vrátit stejná jména lokalit, ale jiné souřadnice?
     private String name;
     @Column

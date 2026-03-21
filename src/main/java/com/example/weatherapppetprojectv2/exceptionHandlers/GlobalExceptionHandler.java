@@ -1,9 +1,7 @@
 package com.example.weatherapppetprojectv2.exceptionHandlers;
 
 import com.example.weatherapppetprojectv2.dto.ErrorResponseDto;
-import com.example.weatherapppetprojectv2.exception.AuthorityNotFoundException;
-import com.example.weatherapppetprojectv2.exception.SameUsernameOrEmailUserExistsException;
-import com.example.weatherapppetprojectv2.exception.UsernameNotFoundException;
+import com.example.weatherapppetprojectv2.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +33,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleAuthorityNotFound(AuthorityNotFoundException ex, HttpServletRequest request) {
         log.debug("Requestor: {}, authority: {}", getClientIpAddress(request), ex.getAuthority());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(UserAlreadyObservesLocation.class)
+    public ResponseEntity<ErrorResponseDto>  handleUserAlreadyObservesLocation(UserAlreadyObservesLocation ex, HttpServletRequest request) {
+        log.debug("Requestor: {}, username: {}, location: {}", getClientIpAddress(request), ex.getUsername(), ex.getLocation());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(LocationNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto>  handleLocationNotFound(LocationNotFoundException ex, HttpServletRequest request) {
+        log.debug("Requestor: {}, location: {}", getClientIpAddress(request), ex.getLocationName());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ex.getMessage()));
     }
 
     private String getClientIpAddress(HttpServletRequest request) {

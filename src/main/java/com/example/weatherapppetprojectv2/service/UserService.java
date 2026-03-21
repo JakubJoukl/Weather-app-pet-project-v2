@@ -3,6 +3,7 @@ package com.example.weatherapppetprojectv2.service;
 import com.example.weatherapppetprojectv2.dto.AddUserDto;
 import com.example.weatherapppetprojectv2.dto.AddUserResponseDto;
 import com.example.weatherapppetprojectv2.entity.Authority;
+import com.example.weatherapppetprojectv2.entity.Location;
 import com.example.weatherapppetprojectv2.exception.SameUsernameOrEmailUserExistsException;
 import com.example.weatherapppetprojectv2.mapper.AddUserDtoMapper;
 import com.example.weatherapppetprojectv2.mapper.AddUserResponseMapper;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -77,5 +79,16 @@ public class UserService implements UserDetailsService {
         Authority userAuthority = authorityService.getAuthorityByAuthority(authority); //TODO do enumu?
         user.getAuthorities().add(userAuthority);
         userAuthority.getUsers().add(user);
+    }
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User userFromAuthentication = (User) authentication.getPrincipal();
+        return userRepository.getUserById(userFromAuthentication.getId())
+                .orElseThrow(() -> new UsernameNotFoundException(userFromAuthentication.getUsername()));
+    }
+
+    public boolean currentUserHasLocation(Location location) {
+        return getCurrentUser().getLocations().contains(location);
     }
 }
