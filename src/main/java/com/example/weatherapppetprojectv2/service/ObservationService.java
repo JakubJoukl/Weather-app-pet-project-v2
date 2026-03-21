@@ -4,7 +4,8 @@ import com.example.weatherapppetprojectv2.dto.currentWeather.LocationDto;
 import com.example.weatherapppetprojectv2.entity.Location;
 import com.example.weatherapppetprojectv2.entity.User;
 import com.example.weatherapppetprojectv2.exception.LocationNotFoundException;
-import com.example.weatherapppetprojectv2.exception.UserAlreadyObservesLocation;
+import com.example.weatherapppetprojectv2.exception.UserAlreadyObservesLocationException;
+import com.example.weatherapppetprojectv2.exception.UserDoesNotObserveLocationException;
 import com.example.weatherapppetprojectv2.mapper.LocationDtoMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,16 +26,11 @@ public class ObservationService {
         Location location = getExistingLocationByNameOrSearchAPIForNewLocation(locationName);
         User user = userService.getCurrentUser();
         if(userService.currentUserHasLocation(location)) {
-            throw new UserAlreadyObservesLocation(user.getUsername(), locationName);
+            throw new UserAlreadyObservesLocationException(user.getUsername(), locationName);
         }
-        addLocationToUser(user, location);
+        user.getLocations().add(location);
         userService.saveUser(user);
         return locationDtoMapper.toDto(location);
-    }
-
-    private static void addLocationToUser(User user, Location location) {
-        user.getLocations().add(location);
-        location.getUsers().add(user);
     }
 
     private Location getExistingLocationByNameOrSearchAPIForNewLocation(String locationName) {
@@ -51,5 +47,16 @@ public class ObservationService {
         } else {
             throw new LocationNotFoundException(locationName);
         }
+    }
+
+    public LocationDto removeLocationFromObservation(String locationName) {
+        User user = userService.getCurrentUser();
+        Location location = user.getLocations()
+                .stream()
+                .filter(possibleLocation -> possibleLocation.getName().equals(locationName))
+                .findFirst().orElseThrow(() -> new UserDoesNotObserveLocationException(user.getUsername(), locationName));
+        user.getLocations().remove(location);
+        userService.saveUser(user);
+        return locationDtoMapper.toDto(location);
     }
 }

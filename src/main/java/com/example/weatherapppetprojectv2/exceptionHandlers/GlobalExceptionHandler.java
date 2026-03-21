@@ -35,8 +35,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDto(ex.getMessage()));
     }
 
-    @ExceptionHandler(UserAlreadyObservesLocation.class)
-    public ResponseEntity<ErrorResponseDto>  handleUserAlreadyObservesLocation(UserAlreadyObservesLocation ex, HttpServletRequest request) {
+    @ExceptionHandler(UserAlreadyObservesLocationException.class)
+    public ResponseEntity<ErrorResponseDto>  handleUserAlreadyObservesLocation(UserAlreadyObservesLocationException ex, HttpServletRequest request) {
+        log.debug("Requestor: {}, username: {}, location: {}", getClientIpAddress(request), ex.getUsername(), ex.getLocation());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(UserDoesNotObserveLocationException.class)
+    public ResponseEntity<ErrorResponseDto> handleUserDoesNotObserveLocation(UserDoesNotObserveLocationException ex, HttpServletRequest request) {
         log.debug("Requestor: {}, username: {}, location: {}", getClientIpAddress(request), ex.getUsername(), ex.getLocation());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDto(ex.getMessage()));
     }
