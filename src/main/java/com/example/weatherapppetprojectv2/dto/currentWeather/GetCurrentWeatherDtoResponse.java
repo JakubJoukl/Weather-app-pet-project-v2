@@ -1,6 +1,5 @@
 package com.example.weatherapppetprojectv2.dto.currentWeather;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = false)
 public class GetCurrentWeatherDtoResponse {
     @JsonProperty("current")
-    private CurrentWeatherDto currentWeatherDto;
+    private WeatherObservationDto weatherObservationDto;
     @JsonProperty("location")
     private LocationDto locationDto;
 }

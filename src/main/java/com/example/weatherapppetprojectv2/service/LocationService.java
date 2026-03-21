@@ -5,6 +5,7 @@ import com.example.weatherapppetprojectv2.repository.LocationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,5 +19,9 @@ public class LocationService {
 
     public Location saveLocation(Location location) {
         return locationRepository.save(location);
+    }
+
+    public List<Location> getAllLocations() {
+        return locationRepository.findAll();
     }
 }

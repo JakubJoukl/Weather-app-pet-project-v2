@@ -104,3 +104,11 @@ ALTER TABLE WEATHER_OBSERVATION MODIFY TEMPERATURE FLOAT(53);
 
 -- changeset hp-omen:1774100028739-5 splitStatements:false
 ALTER TABLE WEATHER_OBSERVATION MODIFY WIND_SPEED FLOAT(53);
+
+-- changeset hp-omen:1774100028740-1 splitStatements:false
+alter table WEATHER_OBSERVATION
+    modify ID bigint auto_increment;
+
+-- changeset hp-omen:1774100028740-2 splitStatements:false
+alter table WEATHER_OBSERVATION
+    auto_increment = 1;

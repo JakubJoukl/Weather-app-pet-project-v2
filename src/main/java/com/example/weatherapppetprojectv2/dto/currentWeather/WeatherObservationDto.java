@@ -13,15 +13,18 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = false)
-public class CurrentWeatherDto {
-    @JsonProperty("last_updated_epoch")
+public class WeatherObservationDto {
+    @JsonAlias("last_updated_epoch")
+    @JsonProperty("measuredAt")
     private Instant measuredAt;
     @JsonAlias("temp_c")
     @JsonProperty("temperature")
     private Double temperature;
-    @JsonProperty("wind_kph")
+    @JsonAlias("wind_kph")
+    @JsonProperty("windSpeed")
     private Double windSpeed;
-    @JsonProperty("wind_dir")
+    @JsonAlias("wind_dir")
+    @JsonProperty("windDirection")
     private String windDirection;
     @JsonProperty("humidity")
     private Double humidity;
