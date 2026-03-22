@@ -1,5 +1,6 @@
 package com.example.weatherapppetprojectv2.service;
 
+import com.example.weatherapppetprojectv2.entity.Authority;
 import com.example.weatherapppetprojectv2.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,16 +19,18 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-
-    @Value("${jwt.secretKey}")
     private String SECRET;
 
+    public JwtService(@Value("${jwt.secretKey}") String SECRET) {
+        this.SECRET = SECRET;
+    }
+
     public String generateToken(String username) {
-        Map<String, Object> claims = new HashMap<>();
+        Map<String, Authority> claims = new HashMap<>();
         return createToken(claims, username);
     }
 
-    private String createToken(Map<String, Object> claims, String username) {
+    private String createToken(Map<String, Authority> claims, String username) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
