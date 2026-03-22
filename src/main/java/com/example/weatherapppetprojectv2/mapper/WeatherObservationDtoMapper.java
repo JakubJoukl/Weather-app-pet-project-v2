@@ -5,6 +5,8 @@ import com.example.weatherapppetprojectv2.entity.WeatherObservation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface WeatherObservationDtoMapper {
     @Mapping(source = "measuredAt", target = "measuredAt")
@@ -20,4 +22,6 @@ public interface WeatherObservationDtoMapper {
     @Mapping(source = "windDirection", target = "windDirection")
     @Mapping(source = "humidity", target = "humidity")
     public WeatherObservationDto toDto(WeatherObservation weatherObservation);
+
+    public List<WeatherObservationDto> toDtoList(List<WeatherObservation> weatherObservations);
 }
