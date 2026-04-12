@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -33,16 +34,24 @@ public class ObservationService {
         return locationDtoMapper.toDto(location);
     }
 
-    private Location getExistingLocationByNameOrSearchAPIForNewLocation(String locationName) {
-        return locationService.getLocationByName(locationName)
-                .orElseGet(() -> getLocationFromAPI(locationName));
+    @Transactional(rollbackFor = Exception.class)
+    protected Location getExistingLocationByNameOrSearchAPIForNewLocation(String locationName) {
+        Location location = locationService.getLocationByName(locationName)
+                                            .orElseGet(() -> getLocationFromAPI(locationName));
+        if(location.getId() == null) {
+            location = locationService.saveLocation(location);
+        }
+        return location;
     }
 
     private Location getLocationFromAPI(String locationName) {
         List<LocationDto> locationDtos = weatherApiService.getSearchApiDtoResponse(locationName);
         if (!locationDtos.isEmpty()) {
             Location location = locationDtoMapper.toEntity(locationDtos.getFirst());
-            location = locationService.saveLocation(location);
+            Optional<Location> locationByApiName = locationService.getLocationByName(location.getName());
+            if(locationByApiName.isPresent()) {
+                location = locationByApiName.get();
+            }
             return location;
         } else {
             throw new LocationNotFoundException(locationName);
