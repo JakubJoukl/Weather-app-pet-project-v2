@@ -29,7 +29,7 @@ public class LoggingAspect {
 
     }
 
-    //TODO fix - handluje i ty v global exception handlers - chyby totiz vznikaji na kontrolleru
+    //TODO fix - handluje i ty v global exception handlers - chyby totiz vznikaji na controlleru - anotace DoNotLog by to měla snad řešit
     @AfterThrowing(
             pointcut = "anyMethodPointcut() && !globalExceptionHandlersPointcut() && !configPointcut()",
             throwing = "ex"
