@@ -30,11 +30,12 @@ public class SpringSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(request ->
-                        request.requestMatchers("/v1/user/login", "/v1/user/addUser")
-                                .permitAll().
-                                anyRequest().authenticated()
+                        request.requestMatchers("/v1/user/login", "/v1/user/addUser","/swagger-ui/**","/v3/api-docs/**","/swagger-ui.html")
+                               .permitAll()
+                               .anyRequest()
+                               .authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())
+                //.httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
