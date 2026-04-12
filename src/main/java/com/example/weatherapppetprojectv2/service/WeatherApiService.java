@@ -74,7 +74,6 @@ public class WeatherApiService {
                 .fromUri(URI.create(baseUrl + locationWeatherPath))
                 .queryParam(queryParamName, locationName)
                 .queryParam(keyParamName, apiKey)
-                .queryParam(languageParamName, language)
                 .build()
                 .encode(StandardCharsets.UTF_8)
                 .toUriString();
