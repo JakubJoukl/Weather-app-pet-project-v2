@@ -32,11 +32,10 @@ public class WeatherObservationService {
     }
 
     //TODO na strankovani (i se sort) nejaka helper metoda
-    public PagedResponseDto<List<WeatherObservationDto>> getWeatherObservationsForLocation(String locationName, int pageNumber, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    public PagedResponseDto<List<WeatherObservationDto>> getWeatherObservationsForLocation(String locationName, Pageable pageable) {
         Page<WeatherObservation> weatherObservationPage = weatherObservationRepository.getAllByLocation_Name(locationName, pageable);
         List<WeatherObservationDto> weatherObservationDtos = weatherObservationDtoMapper.toDtoList(weatherObservationPage.getContent());
-        PagingDetailDto pagingDetailDto = new PagingDetailDto(pageNumber, pageSize, weatherObservationDtos.size());
+        PagingDetailDto pagingDetailDto = new PagingDetailDto(weatherObservationPage);
         return new PagedResponseDto<>(weatherObservationDtos, pagingDetailDto);
     }
 }

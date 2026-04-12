@@ -8,6 +8,7 @@ import com.example.weatherapppetprojectv2.service.ObservationService;
 import com.example.weatherapppetprojectv2.service.WeatherObservationService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +37,8 @@ public class ObservationApiController {
 
     //TODO vracet strankovane
     @GetMapping("/getWeatherObservations")
-    public ResponseEntity<PagedResponseDto<List<WeatherObservationDto>>> getWeatherObservations(@Valid @ModelAttribute WeatherRequestDto weatherRequestDto) {
-        PagedResponseDto<List<WeatherObservationDto>> weatherObservationsPagedDto = weatherObservationService.getWeatherObservationsForLocation(weatherRequestDto.getLocationName(), weatherRequestDto.getPageNumber(), weatherRequestDto.getPageSize());
+    public ResponseEntity<PagedResponseDto<List<WeatherObservationDto>>> getWeatherObservations(@Valid @ModelAttribute WeatherRequestDto weatherRequestDto, Pageable pageable) {
+        PagedResponseDto<List<WeatherObservationDto>> weatherObservationsPagedDto = weatherObservationService.getWeatherObservationsForLocation(weatherRequestDto.getLocationName(), pageable);
         return ResponseEntity.ok().body(weatherObservationsPagedDto);
     }
 }
